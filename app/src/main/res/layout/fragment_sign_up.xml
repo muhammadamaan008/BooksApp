@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.example.booksapp.viewmodel.UserViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,6 +60,7 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    app:error="@{viewModel.emailError}"
                     app:boxCornerRadiusBottomEnd="@dimen/_15sdp"
                     app:boxCornerRadiusBottomStart="@dimen/_15sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_15sdp"
@@ -71,6 +75,8 @@
                         android:textSize="@dimen/_12ssp"
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/email"
+                        android:afterTextChanged="@{()->viewModel.validateEmail()}"
+                        android:text="@={viewModel.email}"
                         android:inputType="textEmailAddress" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -114,7 +120,9 @@
                     app:boxCornerRadiusTopEnd="@dimen/_15sdp"
                     app:boxCornerRadiusTopStart="@dimen/_15sdp"
                     app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/iconColor">
+                    app:passwordToggleTint="@color/iconColor"
+                    app:error="@{viewModel.passwordError}"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextSignUpPassword"
@@ -125,6 +133,8 @@
                         android:drawablePadding="@dimen/_10sdp"
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/password"
+                        android:afterTextChanged="@{()->viewModel.validatePassword()}"
+                        android:text="@={viewModel.password}"
                         android:inputType="textPassword" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -142,6 +152,7 @@
                     app:boxCornerRadiusTopEnd="@dimen/_15sdp"
                     app:boxCornerRadiusTopStart="@dimen/_15sdp"
                     app:passwordToggleEnabled="true"
+                    app:error="@{viewModel.confirmPasswordError}"
                     app:passwordToggleTint="@color/iconColor">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -153,6 +164,8 @@
                         android:drawablePadding="@dimen/_10sdp"
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/confirm_password"
+                        android:afterTextChanged="@{()->viewModel.validateConfirmPassword()}"
+                        android:text="@={viewModel.confirmPassword}"
                         android:inputType="textPassword" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -179,6 +192,7 @@
                     android:backgroundTint="#2e91b3"
                     android:text="@string/create_account"
                     android:textAllCaps="false"
+                    android:onClick="@{()->viewModel.loginSignUpClicked()}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp"
                     app:cornerRadius="@dimen/_7sdp" />

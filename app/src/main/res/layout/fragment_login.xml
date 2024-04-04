@@ -1,9 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data> </data>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.booksapp.viewmodel.UserViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -62,7 +65,6 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layoutEmail"
                     android:layout_width="match_parent"
-                    app:errorIconDrawable="@null"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -70,7 +72,9 @@
                     app:boxCornerRadiusBottomEnd="@dimen/_15sdp"
                     app:boxCornerRadiusBottomStart="@dimen/_15sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_15sdp"
-                    app:boxCornerRadiusTopStart="@dimen/_15sdp">
+                    app:boxCornerRadiusTopStart="@dimen/_15sdp"
+                    app:error="@{viewModel.emailError}"
+                    app:errorIconDrawable="@null">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextEmail"
@@ -78,10 +82,12 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/email"
                         android:drawablePadding="@dimen/_10sdp"
-                        android:hint="@string/email"
-                        android:textSize="@dimen/_12ssp"
                         android:drawableTint="@color/iconColor"
-                        android:inputType="textEmailAddress" />
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress"
+                        android:afterTextChanged="@{()->viewModel.validateEmail()}"
+                        android:text="@={viewModel.email}"
+                        android:textSize="@dimen/_12ssp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -97,20 +103,20 @@
                     app:boxCornerRadiusTopStart="@dimen/_15sdp"
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="@color/iconColor"
-                    app:errorIconDrawable="@null"
+                    app:error="@{viewModel.passwordError}"
                     >
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/password"
                         android:drawablePadding="@dimen/_10sdp"
-                        android:hint="@string/password"
-                        android:textSize="@dimen/_12ssp"
                         android:drawableTint="@color/iconColor"
-                        android:inputType="textPassword" />
-
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:afterTextChanged="@{()->viewModel.validatePassword()}"
+                        android:text="@={viewModel.password}"
+                        android:textSize="@dimen/_12ssp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -123,6 +129,7 @@
                     android:text="@string/login"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
+                    android:onClick="@{()->viewModel.loginSignUpClicked()}"
                     android:textSize="@dimen/_12ssp"
                     app:cornerRadius="@dimen/_7sdp" />
 
@@ -136,11 +143,8 @@
                     android:textColor="#2e91b3"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
-
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
