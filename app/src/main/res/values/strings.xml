@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">BooksApp</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="don_t_have_account">Don\'t have Account ?</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="please_login">Please login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="create_account">Create Account</string>
+    <string name="tip_text">Enter your <b>name</b>,<b>email address</b> and <b>password</b> for sign up.</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="warning_text">By signing up you are agree to <font color="#3d82f6"><b>Terms Conditions</b></font> and <font color="#3d82f6"><b>Privacy Policy</b></font>.</string>
+    <string name="already_have_account">Already have Account ?</string>
+    <string name="valid_email_required">Enter valid email</string>
+    <string name="password_length">Password length should be greater than 4</string>
+    <string name="password_required">Password required</string>
+    <string name="password_same">Password must be same</string>
+    <string name="email_required">Email required</string>
+</resources>
