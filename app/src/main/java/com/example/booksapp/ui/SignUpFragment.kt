@@ -10,7 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.booksapp.R
 import com.example.booksapp.databinding.FragmentSignUpBinding
 import com.example.booksapp.viewmodel.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpFragment : Fragment() {
     private lateinit var binding: FragmentSignUpBinding
     private lateinit var viewModel: UserViewModel

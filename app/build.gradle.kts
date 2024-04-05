@@ -5,6 +5,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
+    kotlin("plugin.serialization") version "1.9.23"
 }
 
 android {
@@ -53,7 +54,9 @@ dependencies {
 
     // RETROFIT, GSON
     implementation (libs.retrofit)
-//    implementation (libs.gson)
+    implementation (libs.converter.gson)
+    implementation (libs.logging.interceptor)
+
 
 
     // NAVIGATION
@@ -61,6 +64,10 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.dynamic.features.fragment)
     androidTestImplementation(libs.androidx.navigation.testing)
+
+    // Serialization
+    implementation(libs.kotlinx.serialization.json)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

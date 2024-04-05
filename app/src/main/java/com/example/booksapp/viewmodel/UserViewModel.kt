@@ -3,63 +3,72 @@ package com.example.booksapp.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.booksapp.data.model.LoginModel
+import com.example.booksapp.data.model.UserModel
+import com.example.booksapp.domain.repository.MainRepository
 import com.example.booksapp.utils.Utils
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserViewModel : ViewModel() {
+@HiltViewModel
+class UserViewModel @Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
     // Mutable Live Data
-    val password = MutableLiveData<String>()
-    val email = MutableLiveData<String>()
-    val confirmPassword = MutableLiveData<String>()
-
     private val _confirmPasswordError = MutableLiveData<String?>()
     private val _emailError = MutableLiveData<String?>()
     private val _passwordError = MutableLiveData<String?>()
-
-    // Live Data for error messages
+    val password = MutableLiveData<String>()
+    val email = MutableLiveData<String>()
+    val confirmPassword = MutableLiveData<String>()
     val emailError: LiveData<String?> get() = _emailError
     val passwordError: LiveData<String?> get() = _passwordError
     val confirmPasswordError: LiveData<String?> get() = _confirmPasswordError
 
+    private val loginResponse = MutableLiveData<UserModel>()
+    private val userData =  MutableLiveData<UserModel>()
+
+    fun setUserData(userModel: UserModel){
+        userData.value = userModel
+    }
+
+    fun userLogin() {
+        println("hello")
+        viewModelScope.launch {
+            userData.value?.let {
+                try {
+                    val response = mainRepository.userLogin(it)
+                    response.onSuccess {
+                            println(response.toString())
+                    }.onFailure {
+                        println(response.toString())
+                    }
+                } catch (e: Exception) {
+                    println("Exception: ${e.message}")
+                }
+            }
+        }
+    }
+
+
     fun validateEmail() {
         _emailError.value = Utils.validateEmail(email = email.value.toString())
-//        when{
-//            !email.value.toString().matches(Regex(EMAIL_PATTERN)) -> _emailError.value = "Invalid email format"
-//            else -> {
-//                _emailError.value = null
-//            }
-//        }
     }
 
     fun validatePassword() {
-        val temp = Utils.validatePassword(password = password.value.toString())
-        println(temp)
-        _passwordError.value = temp
-//        when{
-//            password.value?.length!! < MIN_PASSWORD_LENGTH -> _passwordError.value = "Password must be at least $MIN_PASSWORD_LENGTH characters long"
-//            else -> {
-//                _passwordError.value = null
-//            }
-//        }
+        _passwordError.value = Utils.validatePassword(password = password.value.toString())
     }
 
-    fun validateConfirmPassword(){
+    fun validateConfirmPassword() {
         Utils.validateConfirmPassword(
             password.value,
             confirmPassword.value,
             _passwordError,
             _confirmPasswordError
         )
-
-//        when{
-//            password.value.isNullOrBlank() -> _passwordError.value = "Password required"
-//            password.value!!.isNotEmpty() && confirmPassword.value.toString() != password.value.toString() -> _confirmPasswordError.value = "Password must be same"
-//            else -> {
-//                _confirmPasswordError.value = null
-//            }
-//        }
     }
 
-    fun loginSignUpClicked(){
+    fun loginSignUpClicked() {
         Utils.loginSignUpClicked(
             email.value,
             password.value,
@@ -68,20 +77,7 @@ class UserViewModel : ViewModel() {
             _passwordError,
             _confirmPasswordError
         )
-//        when {
-//            email.value.isNullOrBlank() -> _emailError.value = "Email required"
-//            password.value.isNullOrBlank() -> _passwordError.value = "Password required"
-//            confirmPassword.value.isNullOrBlank() -> _confirmPasswordError.value = "Confirm Password required"
-//            else -> {
-//                _emailError.value = null
-//                _passwordError.value = null
-//                _confirmPasswordError.value = null
-//            }
-//        }
     }
 
-//    companion object {
-//        private const val MIN_PASSWORD_LENGTH = 6
-//        private const val EMAIL_PATTERN = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
-//    }
+
 }
