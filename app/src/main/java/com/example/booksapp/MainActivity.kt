@@ -24,11 +24,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
-        setSupportActionBar(binding.toolbar)
-        setAppBar()
-        window.statusBarColor = ContextCompat.getColor(this, R.color.grey)
+
 
         lifecycleScope.launch {
+            setSupportActionBar(binding.toolbar)
+            setAppBar()
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.grey)
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
                 val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
                 v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

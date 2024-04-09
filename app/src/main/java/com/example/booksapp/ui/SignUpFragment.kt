@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.booksapp.R
+import com.example.booksapp.data.local.SharedPreferencesManager
 import com.example.booksapp.databinding.FragmentSignUpBinding
 import com.example.booksapp.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,10 +27,15 @@ class SignUpFragment : Fragment() {
             R.layout.fragment_sign_up, container, false
         )
         viewModel = ViewModelProvider(this)[UserViewModel::class.java]
-        binding.viewModel = viewModel
+        binding.listener = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
 
+
+        binding.btnCreateAccount.setOnClickListener {
+            val temp = SharedPreferencesManager.getToken("TOKEN",null)
+            println(temp)
+        }
         return binding.root
     }
 }

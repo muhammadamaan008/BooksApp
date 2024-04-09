@@ -1,5 +1,6 @@
-package com.example.booksapp.di
+package com.example.booksapp.di.Network
 
+import com.example.booksapp.data.database.UserDao
 import com.example.booksapp.data.remote.ApiInterface
 import com.example.booksapp.data.repository.MainRepositoryImpl
 import com.example.booksapp.domain.repository.MainRepository
@@ -43,7 +44,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMyRepository(apiInterface: ApiInterface) : MainRepository {
-        return MainRepositoryImpl(apiInterface)
+    fun provideMyRepository(apiInterface: ApiInterface,personDao: UserDao) : MainRepository {
+        return MainRepositoryImpl(apiInterface,personDao)
     }
 }

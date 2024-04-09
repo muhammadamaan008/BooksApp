@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="viewModel"
+            name="listener"
             type="com.example.booksapp.viewmodel.UserViewModel" />
     </data>
 
@@ -60,11 +60,12 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    app:error="@{viewModel.emailError}"
+                    app:error="@{listener.emailError}"
                     app:boxCornerRadiusBottomEnd="@dimen/_15sdp"
                     app:boxCornerRadiusBottomStart="@dimen/_15sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_15sdp"
                     app:boxCornerRadiusTopStart="@dimen/_15sdp">
+
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextSignUpEmail"
@@ -75,11 +76,12 @@
                         android:textSize="@dimen/_12ssp"
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/email"
-                        android:afterTextChanged="@{()->viewModel.validateEmail()}"
-                        android:text="@={viewModel.email}"
+                                    android:afterTextChanged="@{()->listener.validateEmail()}"
+                                    android:text="@={listener.email}"
                         android:inputType="textEmailAddress" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layoutName"
@@ -121,9 +123,8 @@
                     app:boxCornerRadiusTopStart="@dimen/_15sdp"
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="@color/iconColor"
-                    app:error="@{viewModel.passwordError}"
+                    app:error="@{listener.passwordError}"
                     >
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextSignUpPassword"
                         android:layout_width="match_parent"
@@ -133,8 +134,8 @@
                         android:drawablePadding="@dimen/_10sdp"
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/password"
-                        android:afterTextChanged="@{()->viewModel.validatePassword()}"
-                        android:text="@={viewModel.password}"
+                                    android:afterTextChanged="@{()->listener.validatePassword()}"
+                                    android:text="@={listener.password}"
                         android:inputType="textPassword" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -152,8 +153,9 @@
                     app:boxCornerRadiusTopEnd="@dimen/_15sdp"
                     app:boxCornerRadiusTopStart="@dimen/_15sdp"
                     app:passwordToggleEnabled="true"
-                    app:error="@{viewModel.confirmPasswordError}"
+                    app:error="@{listener.confirmPasswordError}"
                     app:passwordToggleTint="@color/iconColor">
+
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextConfirmPassword"
@@ -164,10 +166,10 @@
                         android:drawablePadding="@dimen/_10sdp"
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/confirm_password"
-                        android:afterTextChanged="@{()->viewModel.validateConfirmPassword()}"
-                        android:text="@={viewModel.confirmPassword}"
-                        android:inputType="textPassword" />
-
+                        android:inputType="textPassword"
+                        android:afterTextChanged="@{()->listener.validateConfirmPassword()}"
+                        android:text="@={listener.confirmPassword}"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
@@ -192,10 +194,11 @@
                     android:backgroundTint="#2e91b3"
                     android:text="@string/create_account"
                     android:textAllCaps="false"
-                    android:onClick="@{()->viewModel.loginSignUpClicked()}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp"
-                    app:cornerRadius="@dimen/_7sdp" />
+                    app:cornerRadius="@dimen/_7sdp"
+                    android:onClick="@{()->listener.loginSignUpClicked()}"
+                    />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAlreadyHaveAccount"
@@ -210,8 +213,6 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp"
                     app:cornerRadius="@dimen/_7sdp" />
-
-
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

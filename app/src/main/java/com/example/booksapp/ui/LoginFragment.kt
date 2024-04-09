@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.booksapp.R
-import com.example.booksapp.data.model.LoginModel
 import com.example.booksapp.data.model.UserModel
 import com.example.booksapp.databinding.FragmentLoginBinding
 import com.example.booksapp.viewmodel.UserViewModel
@@ -24,7 +23,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-        binding.listener = viewModel
+//        binding.listener = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupListeners()

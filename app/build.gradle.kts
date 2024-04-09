@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.ksp)
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
@@ -18,7 +19,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -44,6 +44,8 @@ android {
 }
 
 dependencies {
+
+
     // SDP, SSP
     implementation (libs.sdp.android)
     implementation (libs.ssp.android)
@@ -57,7 +59,13 @@ dependencies {
     implementation (libs.converter.gson)
     implementation (libs.logging.interceptor)
 
-
+    // ROOM
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    testImplementation(libs.androidx.room.testing)
 
     // NAVIGATION
     implementation(libs.androidx.navigation.fragment.ktx)
@@ -65,10 +73,10 @@ dependencies {
     implementation(libs.androidx.navigation.dynamic.features.fragment)
     androidTestImplementation(libs.androidx.navigation.testing)
 
-    // Serialization
+    // SERIALIZATION
     implementation(libs.kotlinx.serialization.json)
 
-
+    // DEFAULT
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

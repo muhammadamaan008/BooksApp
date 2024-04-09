@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.booksapp.data.model.LoginModel
+import com.example.booksapp.data.local.SharedPreferencesManager
 import com.example.booksapp.data.model.UserModel
 import com.example.booksapp.domain.repository.MainRepository
 import com.example.booksapp.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,11 +36,18 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     fun userLogin() {
         println("hello")
         viewModelScope.launch {
-            userData.value?.let {
+            userData.value?.let { userModel ->
                 try {
-                    val response = mainRepository.userLogin(it)
-                    response.onSuccess {
-                            println(response.toString())
+                    val response = mainRepository.userLogin(userModel)
+                    response.onSuccess {userResponse->
+                        println(userResponse.data.toString())
+                        userResponse.data?.apply {
+                            token?.let { token ->
+                                saveTokenInSharedPreferences(token)
+                            }
+//                            val temp = Model(email= this.email, pic = this.pic, name = this.name, password = this.password, id = 0)
+                            saveUserInDb(this)
+                        }
                     }.onFailure {
                         println(response.toString())
                     }
@@ -50,6 +58,25 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         }
     }
 
+    private fun saveTokenInSharedPreferences(token: String){
+        viewModelScope.launch (Dispatchers.IO){
+            SharedPreferencesManager.saveToken("TOKEN",
+                token
+            )
+        }
+    }
+
+    private fun saveUserInDb(userModel: UserModel){
+        viewModelScope.launch(Dispatchers.IO) {
+            val isUserInserted = mainRepository.saveUserInDb(userModel)
+            if(isUserInserted.isSuccess){
+                println("okkkkk")
+            }
+            else{
+                println("not okkkkk")
+            }
+        }
+    }
 
     fun validateEmail() {
         _emailError.value = Utils.validateEmail(email = email.value.toString())

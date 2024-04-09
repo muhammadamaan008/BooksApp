@@ -8,6 +8,8 @@
             type="com.example.booksapp.viewmodel.UserViewModel" />
     </data>
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -76,6 +78,7 @@
                     app:error="@{listener.emailError}"
                     app:errorIconDrawable="@null">
 
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextEmail"
                         android:layout_width="match_parent"
@@ -89,6 +92,7 @@
                         android:text="@={listener.email}"
                         android:textSize="@dimen/_12ssp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
 
 
 
@@ -107,6 +111,8 @@
                     app:passwordToggleTint="@color/iconColor"
                     app:error="@{listener.passwordError}"
                     >
+
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextPassword"
                         android:layout_width="match_parent"
@@ -116,10 +122,12 @@
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/password"
                         android:inputType="textPassword"
+                        android:textSize="@dimen/_12ssp"
                         android:afterTextChanged="@{()->listener.validatePassword()}"
                         android:text="@={listener.password}"
-                        android:textSize="@dimen/_12ssp" />
+                    />
                 </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogin"
@@ -131,9 +139,9 @@
                     android:text="@string/login"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:onClick="@{()->listener.loginSignUpClicked()}"
                     android:textSize="@dimen/_12ssp"
-                    app:cornerRadius="@dimen/_7sdp" />
+                    android:onClick="@{()->listener.loginSignUpClicked()}"
+                app:cornerRadius="@dimen/_7sdp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textViewForgotPassword"
