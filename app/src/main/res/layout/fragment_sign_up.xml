@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="listener"
             type="com.example.booksapp.viewmodel.UserViewModel" />
@@ -14,6 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/authScreenBackgroundColor"
         tools:context=".ui.SignUpFragment">
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="@dimen/_260sdp"
@@ -30,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -52,33 +54,42 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp" />
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageUser"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:maxWidth="@dimen/_70sdp"
+                    android:maxHeight="@dimen/_70sdp"
+                    android:src="@drawable/user" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layoutSignUpEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:errorIconDrawable="@null"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    app:error="@{listener.emailError}"
                     app:boxCornerRadiusBottomEnd="@dimen/_15sdp"
                     app:boxCornerRadiusBottomStart="@dimen/_15sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_15sdp"
-                    app:boxCornerRadiusTopStart="@dimen/_15sdp">
+                    app:boxCornerRadiusTopStart="@dimen/_15sdp"
+                    app:error="@{listener.emailError}"
+                    app:errorIconDrawable="@null">
 
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextSignUpEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{()->listener.validateEmail()}"
                         android:drawableStart="@drawable/email"
                         android:drawablePadding="@dimen/_10sdp"
-                        android:textSize="@dimen/_12ssp"
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/email"
-                                    android:afterTextChanged="@{()->listener.validateEmail()}"
-                                    android:text="@={listener.email}"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="textEmailAddress"
+                        android:text="@={listener.email}"
+                        android:textSize="@dimen/_12ssp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,25 +98,27 @@
                     android:id="@+id/layoutName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:errorIconDrawable="@null"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     app:boxCornerRadiusBottomEnd="@dimen/_15sdp"
                     app:boxCornerRadiusBottomStart="@dimen/_15sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_15sdp"
-                    app:boxCornerRadiusTopStart="@dimen/_15sdp">
+                    app:boxCornerRadiusTopStart="@dimen/_15sdp"
+                    app:error="@{listener.nameError}"
+                    app:errorIconDrawable="@null">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/user"
-                        android:textSize="@dimen/_12ssp"
                         android:drawablePadding="@dimen/_10sdp"
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/name"
-                        android:inputType="text" />
+                        android:text="@={listener.name}"
+                        android:inputType="text"
+                        android:textSize="@dimen/_12ssp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,7 +126,6 @@
                     android:id="@+id/layoutSignUpPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:errorIconDrawable="@null"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
@@ -121,22 +133,23 @@
                     app:boxCornerRadiusBottomStart="@dimen/_15sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_15sdp"
                     app:boxCornerRadiusTopStart="@dimen/_15sdp"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/iconColor"
                     app:error="@{listener.passwordError}"
-                    >
+                    app:errorIconDrawable="@null"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/iconColor">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextSignUpPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{()->listener.validatePassword()}"
                         android:drawableStart="@drawable/password"
-                        android:textSize="@dimen/_12ssp"
                         android:drawablePadding="@dimen/_10sdp"
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/password"
-                                    android:afterTextChanged="@{()->listener.validatePassword()}"
-                                    android:text="@={listener.password}"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:text="@={listener.password}"
+                        android:textSize="@dimen/_12ssp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -144,7 +157,6 @@
                     android:id="@+id/layoutConfirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:errorIconDrawable="@null"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
@@ -152,8 +164,9 @@
                     app:boxCornerRadiusBottomStart="@dimen/_15sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_15sdp"
                     app:boxCornerRadiusTopStart="@dimen/_15sdp"
-                    app:passwordToggleEnabled="true"
                     app:error="@{listener.confirmPasswordError}"
+                    app:errorIconDrawable="@null"
+                    app:passwordToggleEnabled="true"
                     app:passwordToggleTint="@color/iconColor">
 
 
@@ -161,15 +174,14 @@
                         android:id="@+id/editTextConfirmPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:afterTextChanged="@{()->listener.validateConfirmPassword()}"
                         android:drawableStart="@drawable/password"
-                        android:textSize="@dimen/_12ssp"
                         android:drawablePadding="@dimen/_10sdp"
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/confirm_password"
                         android:inputType="textPassword"
-                        android:afterTextChanged="@{()->listener.validateConfirmPassword()}"
                         android:text="@={listener.confirmPassword}"
-                        />
+                        android:textSize="@dimen/_12ssp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textview.MaterialTextView
@@ -196,9 +208,8 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp"
-                    app:cornerRadius="@dimen/_7sdp"
-                    android:onClick="@{()->listener.loginSignUpClicked()}"
-                    />
+                    app:cornerRadius="@dimen/_7sdp" />
+                <!--                android:onClick="@{()->listener.loginSignUpClicked()}"-->
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAlreadyHaveAccount"

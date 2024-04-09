@@ -19,37 +19,54 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     private val _confirmPasswordError = MutableLiveData<String?>()
     private val _emailError = MutableLiveData<String?>()
     private val _passwordError = MutableLiveData<String?>()
+    private val _nameError = MutableLiveData<String?>()
+
     val password = MutableLiveData<String>()
     val email = MutableLiveData<String>()
     val confirmPassword = MutableLiveData<String>()
+    val name = MutableLiveData<String>()
     val emailError: LiveData<String?> get() = _emailError
     val passwordError: LiveData<String?> get() = _passwordError
     val confirmPasswordError: LiveData<String?> get() = _confirmPasswordError
+    val nameError: LiveData<String?> get() = _nameError
 
-    private val loginResponse = MutableLiveData<UserModel>()
-    private val userData =  MutableLiveData<UserModel>()
+    private val userData = MutableLiveData<UserModel>()
 
-    fun setUserData(userModel: UserModel){
+    private fun setUserData(userModel: UserModel) {
         userData.value = userModel
     }
 
-    fun userLogin() {
+    fun checkValidationAndLogin(userModel: UserModel) {
+        if (passwordError.value.isNullOrBlank() && emailError.value.isNullOrBlank()) {
+            setUserData(userModel)
+            userLogin()
+        }
+    }
+
+    fun checkValidationAndRegister(userModel: UserModel){
+        if (passwordError.value.isNullOrBlank() && emailError.value.isNullOrBlank() && nameError.value.isNullOrBlank() && confirmPasswordError.value.isNullOrBlank()) {
+            setUserData(userModel)
+            userRegistration()
+        }
+    }
+
+    private fun userLogin() {
         println("hello")
+        println(passwordError.value.toString())
         viewModelScope.launch {
             userData.value?.let { userModel ->
                 try {
                     val response = mainRepository.userLogin(userModel)
-                    response.onSuccess {userResponse->
+                    response.onSuccess { userResponse ->
                         println(userResponse.data.toString())
                         userResponse.data?.apply {
                             token?.let { token ->
                                 saveTokenInSharedPreferences(token)
                             }
-//                            val temp = Model(email= this.email, pic = this.pic, name = this.name, password = this.password, id = 0)
                             saveUserInDb(this)
                         }
-                    }.onFailure {
-                        println(response.toString())
+                    }.onFailure { throwable ->
+                        println("Error occurred: ${throwable.message}")
                     }
                 } catch (e: Exception) {
                     println("Exception: ${e.message}")
@@ -58,21 +75,43 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         }
     }
 
-    private fun saveTokenInSharedPreferences(token: String){
-        viewModelScope.launch (Dispatchers.IO){
-            SharedPreferencesManager.saveToken("TOKEN",
+    private fun userRegistration() {
+        println("Registration")
+        viewModelScope.launch {
+            userData.value?.let { userModel ->
+                try {
+                    val response = mainRepository.userRegistration(userModel)
+                    response.onSuccess { userResponse ->
+                        println(userResponse.data.toString())
+                        userResponse.data?.apply {
+                            println("hurrah registeredddddd")
+                        }
+                    }.onFailure { throwable ->
+                        println("ooppssss not registeredddddd")
+                        println("Error occurred: ${throwable.message}")
+                    }
+                } catch (e: Exception) {
+                    println("Exception: ${e.message}")
+                }
+            }
+        }
+    }
+
+    private fun saveTokenInSharedPreferences(token: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            SharedPreferencesManager.saveToken(
+                "TOKEN",
                 token
             )
         }
     }
 
-    private fun saveUserInDb(userModel: UserModel){
+    private fun saveUserInDb(userModel: UserModel) {
         viewModelScope.launch(Dispatchers.IO) {
             val isUserInserted = mainRepository.saveUserInDb(userModel)
-            if(isUserInserted.isSuccess){
+            if (isUserInserted.isSuccess) {
                 println("okkkkk")
-            }
-            else{
+            } else {
                 println("not okkkkk")
             }
         }
@@ -81,6 +120,10 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     fun validateEmail() {
         _emailError.value = Utils.validateEmail(email = email.value.toString())
     }
+
+//    fun validateName() {
+//        _nameError.value = Utils.validateName(name = name.value.toString())
+//    }
 
     fun validatePassword() {
         _passwordError.value = Utils.validatePassword(password = password.value.toString())
@@ -100,11 +143,11 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
             email.value,
             password.value,
             confirmPassword.value,
+            name.value,
             _emailError,
             _passwordError,
-            _confirmPasswordError
+            _confirmPasswordError,
+            _nameError
         )
     }
-
-
 }

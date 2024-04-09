@@ -10,9 +10,11 @@ class MainRepositoryImpl(private val apiInterface: ApiInterface,private val user
     override suspend fun userLogin(userModel: UserModel): Result<UserResponse> {
         val response = apiInterface.userLogin(userModel)
         if(response.isSuccessful){
+            println("in repo impl ${response.body()?.message}")
             return Result.success(response.body()!!)
         }
-        return Result.failure(Exception("Error"))
+        println("in repo impleme ${response.body()?.message}")
+        return Result.failure(Exception(response.errorBody().toString()))
     }
 
     override suspend fun saveUserInDb(userModel: UserModel): Result<Boolean> {
@@ -24,5 +26,11 @@ class MainRepositoryImpl(private val apiInterface: ApiInterface,private val user
         }
     }
 
-
+    override suspend fun userRegistration(userModel: UserModel): Result<UserResponse> {
+        val response = apiInterface.userRegistration(userModel)
+        if(response.isSuccessful){
+            return Result.success(response.body()!!)
+        }
+        return Result.failure(Exception(response.body()?.message))
+    }
 }

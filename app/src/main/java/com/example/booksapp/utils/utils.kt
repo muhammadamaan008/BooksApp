@@ -8,6 +8,10 @@ object Utils {
         return if (!email.matches(Regex(EMAIL_PATTERN))) "Invalid email format" else null
     }
 
+    fun validateName(name: String): String? {
+        return if (name.isBlank()) "Name Required" else null
+    }
+
     fun validatePassword(password: String): String? {
         return if (password.length < MIN_PASSWORD_LENGTH) "Password must be at least $MIN_PASSWORD_LENGTH characters long" else null
     }
@@ -31,20 +35,24 @@ object Utils {
         email: String?,
         password: String?,
         confirmPassword: String?,
+        name: String?,
         emailError: MutableLiveData<String?>,
         passwordError: MutableLiveData<String?>,
-        confirmPasswordError: MutableLiveData<String?>
+        confirmPasswordError: MutableLiveData<String?>,
+        nameError: MutableLiveData<String?>
     ) {
         when {
             email.isNullOrBlank() -> emailError.value = "Email required"
             password.isNullOrBlank() -> passwordError.value = "Password required"
             confirmPassword.isNullOrBlank() -> confirmPasswordError.value =
                 "Confirm Password required"
+            name.isNullOrBlank() -> nameError.value = "Name Required"
 
             else -> {
                 emailError.value = null
                 passwordError.value = null
                 confirmPasswordError.value = null
+                nameError.value = null
             }
         }
     }

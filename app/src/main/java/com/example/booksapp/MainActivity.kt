@@ -39,10 +39,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setAppBar(){
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(binding.fragmentContainerView.id) as NavHostFragment
-        val navController = navHostFragment.navController
-        setupActionBarWithNavController(navController)
+       lifecycleScope.launch {
+           val navHostFragment =
+               supportFragmentManager.findFragmentById(binding.fragmentContainerView.id) as NavHostFragment
+           val navController = navHostFragment.navController
+           setupActionBarWithNavController(navController)
+       }
     }
 
     override fun onSupportNavigateUp(): Boolean {

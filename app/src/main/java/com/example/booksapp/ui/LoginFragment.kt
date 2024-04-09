@@ -23,26 +23,26 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-//        binding.listener = viewModel
+        binding.listener = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupListeners()
-
 
         return binding.root
     }
 
     private fun setupListeners() {
         binding.apply {
-            btnDontHaveAccount.setOnClickListener {
+            btnLogin.setOnClickListener {
                 viewModel.loginSignUpClicked()
                 val model = UserModel(
                     email = editTextEmail.text.toString(),
                     password = editTextPassword.text.toString()
                 )
-                viewModel.setUserData(model)
-                viewModel.userLogin()
+                viewModel.checkValidationAndLogin(model)
+            }
 
+            btnDontHaveAccount.setOnClickListener {
                 findNavController().navigate(R.id.loginFragment_to_signUpFragment)
             }
         }

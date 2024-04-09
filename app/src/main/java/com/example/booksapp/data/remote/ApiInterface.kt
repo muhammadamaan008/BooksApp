@@ -10,4 +10,7 @@ interface ApiInterface {
     @POST("login")
     suspend fun userLogin(@Body userModel: UserModel): Response<UserResponse>
 
+    @POST("RegisterUser")
+    suspend fun userRegistration(@Body userModel: UserModel): Response<UserResponse>
+
 }

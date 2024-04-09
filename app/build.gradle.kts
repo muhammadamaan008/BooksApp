@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 
     // SDP, SSP
     implementation (libs.sdp.android)
