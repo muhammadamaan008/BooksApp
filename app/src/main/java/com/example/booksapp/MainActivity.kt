@@ -11,9 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.booksapp.data.local.SharedPreferencesManager
 import com.example.booksapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -25,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
 
         lifecycleScope.launch {
@@ -34,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.grey)
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
                 val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
                 insets
             }
         }
