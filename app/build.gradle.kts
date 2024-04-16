@@ -44,7 +44,9 @@ android {
 }
 
 dependencies {
-    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation (libs.circleimageview)
+    implementation(libs.androidx.core.splashscreen)
+    implementation ("com.github.hellosagar:ProgressButton:0.35")
 
     // SDP, SSP
     implementation (libs.sdp.android)

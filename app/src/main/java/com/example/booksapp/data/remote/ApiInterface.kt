@@ -13,4 +13,7 @@ interface ApiInterface {
     @POST("RegisterUser")
     suspend fun userRegistration(@Body userModel: UserModel): Response<UserResponse>
 
+    @POST("verifyToken")
+    suspend fun verifyToken(@Body userModel: UserModel): Response<UserResponse>
+
 }

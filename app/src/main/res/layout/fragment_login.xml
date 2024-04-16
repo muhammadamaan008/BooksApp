@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/authScreenBackgroundColor"
-        tools:context=".ui.LoginFragment">
+        tools:context=".ui.auth.LoginFragment">
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="@dimen/_260sdp"
@@ -106,6 +107,7 @@
                     app:boxCornerRadiusTopEnd="@dimen/_15sdp"
                     app:boxCornerRadiusTopStart="@dimen/_15sdp"
                     app:error="@{listener.passwordError}"
+                    app:errorIconDrawable="@null"
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="@color/iconColor">
 
@@ -125,6 +127,15 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:indeterminate="true"
+                    android:visibility="gone" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogin"
                     android:layout_width="wrap_content"
@@ -137,7 +148,6 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp"
                     app:cornerRadius="@dimen/_7sdp" />
-                <!--                android:onClick="@{()->listener.loginSignUpClicked()}"-->
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textViewForgotPassword"

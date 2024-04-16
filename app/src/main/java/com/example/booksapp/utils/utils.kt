@@ -46,6 +46,7 @@ object Utils {
             password.isNullOrBlank() -> passwordError.value = "Password required"
             confirmPassword.isNullOrBlank() -> confirmPasswordError.value =
                 "Confirm Password required"
+
             name.isNullOrBlank() -> nameError.value = "Name Required"
 
             else -> {

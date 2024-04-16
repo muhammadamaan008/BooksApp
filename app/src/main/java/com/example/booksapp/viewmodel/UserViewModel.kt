@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.booksapp.utils.EventWrapper
 import com.example.booksapp.data.local.SharedPreferencesManager
 import com.example.booksapp.data.model.UserModel
 import com.example.booksapp.domain.repository.MainRepository
@@ -32,6 +33,16 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
 
     private val userData = MutableLiveData<UserModel>()
 
+
+    private val _navigationListener = MutableLiveData<EventWrapper<Boolean>?>()
+    val navigationListener: LiveData<EventWrapper<Boolean>?> get() = _navigationListener
+
+    private val _toastMessage = MutableLiveData<EventWrapper<String>?>()
+    val toastMessage: LiveData<EventWrapper<String>?> get() = _toastMessage
+
+    private val _loadingBar = MutableLiveData<Boolean?>()
+    val loadingBar: LiveData<Boolean?> get() = _loadingBar
+
     private fun setUserData(userModel: UserModel) {
         userData.value = userModel
     }
@@ -43,7 +54,7 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         }
     }
 
-    fun checkValidationAndRegister(userModel: UserModel){
+    fun checkValidationAndRegister(userModel: UserModel) {
         if (passwordError.value.isNullOrBlank() && emailError.value.isNullOrBlank() && nameError.value.isNullOrBlank() && confirmPasswordError.value.isNullOrBlank()) {
             setUserData(userModel)
             userRegistration()
@@ -51,47 +62,50 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     }
 
     private fun userLogin() {
-        println("hello")
-        println(passwordError.value.toString())
+        set(true, null, null)
         viewModelScope.launch {
             userData.value?.let { userModel ->
                 try {
                     val response = mainRepository.userLogin(userModel)
                     response.onSuccess { userResponse ->
-                        println(userResponse.data.toString())
                         userResponse.data?.apply {
-                            token?.let { token ->
-                                saveTokenInSharedPreferences(token)
-                            }
+                            saveTokenInSharedPreferences(token!!)
                             saveUserInDb(this)
+                            set(
+                                false,
+                                EventWrapper(userResponse.message.toString()),
+                                EventWrapper(true)
+                            )
                         }
-                    }.onFailure { throwable ->
-                        println("Error occurred: ${throwable.message}")
+                    }.onFailure {
+                        set(false, EventWrapper(it.message.toString()), EventWrapper(false))
                     }
                 } catch (e: Exception) {
-                    println("Exception: ${e.message}")
+                    set(false, EventWrapper(e.message.toString()), EventWrapper(false))
                 }
             }
         }
     }
 
     private fun userRegistration() {
-        println("Registration")
+        set(true, null, null)
         viewModelScope.launch {
             userData.value?.let { userModel ->
                 try {
                     val response = mainRepository.userRegistration(userModel)
                     response.onSuccess { userResponse ->
-                        println(userResponse.data.toString())
                         userResponse.data?.apply {
-                            println("hurrah registeredddddd")
+                            set(
+                                false,
+                                EventWrapper(userResponse.message.toString()),
+                                EventWrapper(true)
+                            )
                         }
-                    }.onFailure { throwable ->
-                        println("ooppssss not registeredddddd")
-                        println("Error occurred: ${throwable.message}")
+                    }.onFailure {
+                        set(false, EventWrapper(it.message.toString()), EventWrapper(false))
                     }
                 } catch (e: Exception) {
-                    println("Exception: ${e.message}")
+                    set(false, EventWrapper(e.message.toString()), EventWrapper(false))
                 }
             }
         }
@@ -106,24 +120,46 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         }
     }
 
+    private fun set(
+        loading: Boolean?,
+        toastMessage: EventWrapper<String>?,
+        navigate: EventWrapper<Boolean>?
+    ) {
+        _loadingBar.value = loading
+        _toastMessage.value = toastMessage
+        _navigationListener.value = navigate
+    }
+
+
     private fun saveUserInDb(userModel: UserModel) {
         viewModelScope.launch(Dispatchers.IO) {
             val isUserInserted = mainRepository.saveUserInDb(userModel)
             if (isUserInserted.isSuccess) {
-                println("okkkkk")
+                println("Saved In Db")
             } else {
-                println("not okkkkk")
+                println("Not Saved in Db")
             }
         }
+    }
+
+    suspend fun verifyToken(userModel: UserModel): Boolean {
+        var isTokenVerified = false
+        println("tokennnn ${SharedPreferencesManager.getToken("TOKEN", null)}")
+        viewModelScope.launch(Dispatchers.IO) {
+            val verifyTokenResponse = mainRepository.verifyToken(userModel)
+            if (verifyTokenResponse.isSuccess) {
+                println("token verified")
+                isTokenVerified = true
+            }
+            println("error while verifying token")
+        }
+
+        return isTokenVerified
     }
 
     fun validateEmail() {
         _emailError.value = Utils.validateEmail(email = email.value.toString())
     }
-
-//    fun validateName() {
-//        _nameError.value = Utils.validateName(name = name.value.toString())
-//    }
 
     fun validatePassword() {
         _passwordError.value = Utils.validatePassword(password = password.value.toString())

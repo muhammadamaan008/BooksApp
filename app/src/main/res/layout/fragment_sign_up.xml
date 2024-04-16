@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/authScreenBackgroundColor"
-        tools:context=".ui.SignUpFragment">
+        tools:context=".ui.auth.SignUpFragment">
 
 
         <androidx.cardview.widget.CardView
@@ -116,8 +116,8 @@
                         android:drawablePadding="@dimen/_10sdp"
                         android:drawableTint="@color/iconColor"
                         android:hint="@string/name"
-                        android:text="@={listener.name}"
                         android:inputType="text"
+                        android:text="@={listener.name}"
                         android:textSize="@dimen/_12ssp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -196,6 +196,15 @@
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progressBarSignup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:indeterminate="true"
+                    android:visibility="gone" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnCreateAccount"
