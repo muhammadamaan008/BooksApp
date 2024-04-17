@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.booksapp.utils.EventWrapper
 import com.example.booksapp.data.local.SharedPreferencesManager
+import com.example.booksapp.data.model.AuthorModel
+import com.example.booksapp.data.model.BooksModel
 import com.example.booksapp.data.model.UserModel
 import com.example.booksapp.domain.repository.MainRepository
 import com.example.booksapp.utils.Utils
@@ -43,6 +45,9 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     private val _loadingBar = MutableLiveData<Boolean?>()
     val loadingBar: LiveData<Boolean?> get() = _loadingBar
 
+    val authorDataset = MutableLiveData<List<AuthorModel>>()
+    val booksDataset = MutableLiveData<List<BooksModel>>()
+
     private fun setUserData(userModel: UserModel) {
         userData.value = userModel
     }
@@ -76,6 +81,7 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
                                 EventWrapper(userResponse.message.toString()),
                                 EventWrapper(true)
                             )
+                            println(SharedPreferencesManager.getToken("TOKEN",null))
                         }
                     }.onFailure {
                         set(false, EventWrapper(it.message.toString()), EventWrapper(false))
@@ -86,6 +92,36 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
             }
         }
     }
+
+    fun getAllAuthors(){
+        _loadingBar.value = true
+        viewModelScope.launch {
+            val authors =
+                mainRepository.getAllAuthors("Bearer ${SharedPreferencesManager.getToken("TOKEN", null)}")
+            authors.onSuccess {
+                println(it.toString())
+                authorDataset.value =it
+                _loadingBar.value = false
+            }.onFailure {
+                println(it.message.toString())
+                _loadingBar.value = false
+            }
+        }
+    }
+
+    fun getAllBooks(){
+        viewModelScope.launch {
+            val books =
+                mainRepository.getAllBooks("Bearer ${SharedPreferencesManager.getToken("TOKEN", null)}")
+            books.onSuccess {
+                println(it.toString())
+                booksDataset.value =it
+            }.onFailure {
+                println(it.message.toString())
+            }
+        }
+    }
+
 
     private fun userRegistration() {
         set(true, null, null)

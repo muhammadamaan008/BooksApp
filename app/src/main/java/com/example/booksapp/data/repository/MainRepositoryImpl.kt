@@ -1,6 +1,8 @@
 package com.example.booksapp.data.repository
 
 import com.example.booksapp.data.database.UserDao
+import com.example.booksapp.data.model.AuthorModel
+import com.example.booksapp.data.model.BooksModel
 import com.example.booksapp.data.model.UserModel
 import com.example.booksapp.data.model.UserResponse
 import com.example.booksapp.data.remote.ApiInterface
@@ -60,6 +62,38 @@ class MainRepositoryImpl(private val apiInterface: ApiInterface, private val use
             Result.success(response.body()!!)
         } else {
             Result.failure(Exception("Token verification failed"))
+        }
+    }
+
+    override suspend fun getAllAuthors(token: String): Result<List<AuthorModel>> {
+        val response = apiInterface.getAllAuthors(token)
+        return if(response.isSuccessful){
+            Result.success(response.body()!!)
+        }else{
+            val errorBodyString = response.errorBody()?.string()
+            val errorMessage = try {
+                JSONObject(errorBodyString ?: "").getString("message")
+            } catch (e: JSONException) {
+                "Unknown error occurred"
+            }
+            println("Error message from server all authors: $errorMessage")
+            Result.failure(Exception(errorMessage))
+        }
+    }
+
+    override suspend fun getAllBooks(token: String): Result<List<BooksModel>> {
+        val response = apiInterface.getAllBooks(token)
+        return if(response.isSuccessful){
+            Result.success(response.body()!!)
+        }else{
+            val errorBodyString = response.errorBody()?.string()
+            val errorMessage = try {
+                JSONObject(errorBodyString ?: "").getString("message")
+            } catch (e: JSONException) {
+                "Unknown error occurred"
+            }
+            println("Error message from server all books: $errorMessage")
+            Result.failure(Exception(errorMessage))
         }
     }
 }

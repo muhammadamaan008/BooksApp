@@ -47,6 +47,7 @@ dependencies {
     implementation (libs.circleimageview)
     implementation(libs.androidx.core.splashscreen)
     implementation ("com.github.hellosagar:ProgressButton:0.35")
+    implementation ("com.github.bumptech.glide:glide:4.11.0")
 
     // SDP, SSP
     implementation (libs.sdp.android)

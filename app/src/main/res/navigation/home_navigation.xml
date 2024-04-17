@@ -3,16 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/settingFragment">
-    <include app:graph="@navigation/navigation" />
-    <fragment
-        android:id="@+id/listViewFragment"
-        android:name="com.example.booksapp.ui.ListViewFragment"
-        android:label="fragment_list_view"
-        tools:layout="@layout/fragment_list_view" />
+    app:startDestination="@id/listViewFragment">
+<!--    <include app:graph="@navigation/navigation" />-->
+
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.booksapp.ui.SettingFragment"
         android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting"/>
+
+    <fragment
+        android:id="@+id/listViewFragment"
+        android:name="com.example.booksapp.ui.ListViewFragment"
+        tools:layout="@layout/fragment_list_view"
+        android:label="HomeFragment" />
 </navigation>

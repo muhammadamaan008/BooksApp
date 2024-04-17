@@ -1,4 +1,4 @@
-package com.example.booksapp
+package com.example.booksapp.ui.auth
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -12,19 +12,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.booksapp.databinding.ActivityMainBinding
+import com.example.booksapp.R
+import com.example.booksapp.databinding.ActivityAuthBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class AuthActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAuthBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        enableEdgeToEdge()
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_auth)
 
         lifecycleScope.launch {
             setSupportActionBar(binding.toolbar)

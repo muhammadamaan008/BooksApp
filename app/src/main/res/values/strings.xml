@@ -19,4 +19,6 @@
     <string name="password_required">Password required</string>
     <string name="password_same">Password must be same</string>
     <string name="email_required">Email required</string>
+    <string name="authorsTextView">Authors:</string>
+    <string name="booksText">Books :</string>
 </resources>

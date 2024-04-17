@@ -1,5 +1,6 @@
 package com.example.booksapp.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.booksapp.R
 import com.example.booksapp.data.model.UserModel
 import com.example.booksapp.databinding.FragmentLoginBinding
+import com.example.booksapp.ui.HomeActivity
 import com.example.booksapp.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -81,9 +83,10 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
         })
+//        findNavController().navigate(R.id.loginFragment_to_homeFragment)
         viewModel.navigationListener.observe(viewLifecycleOwner, Observer {
             it?.getContentIfNotHandled()?.let { navigate ->
-                if (navigate) findNavController().navigate(R.id.loginFragment_to_homeFragment)
+                if (navigate) startActivity(Intent(requireActivity(),HomeActivity::class.java))
             }
         })
     }

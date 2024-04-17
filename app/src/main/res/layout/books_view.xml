@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_180sdp"
+        app:cardCornerRadius="@dimen/_16sdp"
+        app:cardElevation="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        app:strokeColor="@color/cardBorder"
+        app:strokeWidth="@dimen/_2sdp"
+        >
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/bookImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop">
+
+        </com.google.android.material.imageview.ShapeableImageView>
+
+<com.google.android.material.textview.MaterialTextView
+    android:id="@+id/bookTitleText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:textColor="@color/black"
+    android:textStyle="bold"
+    android:maxLines="1"
+    android:maxEms="6"
+    android:ellipsize="end"
+    android:background="@color/grey"
+    android:padding="@dimen/_5sdp"
+    android:textSize="@dimen/_11ssp"
+    />
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>
+
