@@ -48,6 +48,9 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     val authorDataset = MutableLiveData<List<AuthorModel>>()
     val booksDataset = MutableLiveData<List<BooksModel>>()
 
+    private val _tokenVerified = MutableLiveData<Boolean>()
+    val tokenVerified: LiveData<Boolean> get() = _tokenVerified
+
     private fun setUserData(userModel: UserModel) {
         userData.value = userModel
     }
@@ -178,19 +181,17 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
         }
     }
 
-    suspend fun verifyToken(userModel: UserModel): Boolean {
-        var isTokenVerified = false
+    suspend fun verifyToken(userModel: UserModel){
         println("tokennnn ${SharedPreferencesManager.getToken("TOKEN", null)}")
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val verifyTokenResponse = mainRepository.verifyToken(userModel)
             if (verifyTokenResponse.isSuccess) {
                 println("token verified")
-                isTokenVerified = true
+                _tokenVerified.value = true
+            }else if(verifyTokenResponse.isFailure){
+                _tokenVerified.value = false
             }
-            println("error while verifying token")
         }
-
-        return isTokenVerified
     }
 
     fun validateEmail() {

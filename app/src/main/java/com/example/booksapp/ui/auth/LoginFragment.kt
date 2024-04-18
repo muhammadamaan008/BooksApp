@@ -31,15 +31,7 @@ class LoginFragment : Fragment() {
         binding.listener = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-//        val token = SharedPreferencesManager.getToken("TOKEN",null)
-//        println("fragmen me token $token")
-//        if(!token.isNullOrEmpty()){
-//            lifecycleScope.launch(Dispatchers.IO){
-//                val tokenVerified = viewModel.verifyToken(UserModel(token = token))
-//                println("Verified: $tokenVerified")
-//                if (tokenVerified) findNavController().navigate(R.id.loginFragment_to_homeFragment)
-//            }
-//        }
+
 
         setupListeners()
 

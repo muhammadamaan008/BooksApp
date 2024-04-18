@@ -11,6 +11,5 @@ interface MainRepository {
     suspend fun userRegistration(userModel: UserModel): Result<UserResponse>
     suspend fun verifyToken(userModel: UserModel): Result<UserResponse>
     suspend fun getAllAuthors(token: String): Result<List<AuthorModel>>
-
     suspend fun getAllBooks(token: String): Result<List<BooksModel>>
 }
