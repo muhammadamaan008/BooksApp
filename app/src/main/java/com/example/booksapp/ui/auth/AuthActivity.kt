@@ -11,7 +11,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
@@ -22,7 +21,7 @@ import com.example.booksapp.R
 import com.example.booksapp.data.local.SharedPreferencesManager
 import com.example.booksapp.data.model.UserModel
 import com.example.booksapp.databinding.ActivityAuthBinding
-import com.example.booksapp.ui.HomeActivity
+import com.example.booksapp.ui.home.HomeActivity
 import com.example.booksapp.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -51,14 +50,16 @@ class AuthActivity : AppCompatActivity() {
                 insets
             }
         }
+
         lifecycleScope.launch {
-            val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
             val inflater = navHostFragment.navController.navInflater
             val graph = inflater.inflate(R.navigation.navigation)
 
             val token = SharedPreferencesManager.getToken("TOKEN", null)
             if (!token.isNullOrEmpty()) {
-                withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO) {
                     viewModel.verifyToken(UserModel(token = token))
                 }
             } else {
@@ -68,20 +69,20 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
-    private fun setTokenObservable(graph: NavGraph, navHostFragment: NavHostFragment){
+    private fun setTokenObservable(graph: NavGraph, navHostFragment: NavHostFragment) {
         lifecycleScope.launch(Dispatchers.Main) {
-            viewModel.tokenVerified.observe(this@AuthActivity, Observer { isTokenValid ->
+            viewModel.tokenVerified.observe(this@AuthActivity) { isTokenValid ->
                 if (isTokenValid) {
                     navigateToHomeActivity()
                 } else {
                     setupNavigation(graph, navHostFragment)
                 }
-            })
+            }
         }
     }
 
     private fun setupNavigation(graph: NavGraph, navHostFragment: NavHostFragment) {
-        lifecycleScope.launch(Dispatchers.Default) {
+        lifecycleScope.launch(Dispatchers.Main) {
             splashScreen.setKeepOnScreenCondition { false }
             graph.setStartDestination(R.id.loginFragment)
             navHostFragment.navController.setGraph(graph, intent.extras)

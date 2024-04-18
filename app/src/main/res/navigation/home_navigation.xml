@@ -8,13 +8,26 @@
 
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.booksapp.ui.SettingFragment"
+        android:name="com.example.booksapp.ui.home.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting"/>
 
     <fragment
         android:id="@+id/listViewFragment"
-        android:name="com.example.booksapp.ui.ListViewFragment"
+        android:name="com.example.booksapp.ui.home.ListViewFragment"
         tools:layout="@layout/fragment_list_view"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_listViewFragment_to_detailsActivity"
+            app:destination="@id/detailsActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/detailsActivity"
+        android:name="com.example.booksapp.ui.home.DetailsActivity"
+        android:label="activity_details"
+        tools:layout="@layout/activity_details" >
+        <argument
+            android:name="bookDetails"
+            app:argType="com.example.booksapp.data.model.BooksModel" />
+    </activity>
 </navigation>

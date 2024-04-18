@@ -1,8 +1,11 @@
 package com.example.booksapp.data.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
+@Parcelize
 data class BooksModel(
     @SerializedName("_id")
     val id: String? = null,
@@ -21,4 +24,4 @@ data class BooksModel(
 
     @SerializedName("url")
     val pic: String? = null,
-): Serializable
+): Serializable, Parcelable

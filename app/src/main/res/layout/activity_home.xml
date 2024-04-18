@@ -10,7 +10,7 @@
         android:id="@+id/homeActivityMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.HomeActivity">
+        tools:context=".ui.home.HomeActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/homeActivityToolbar"

@@ -14,14 +14,19 @@
         android:theme="@style/Theme.BooksApp.MySplash"
         tools:targetApi="31">
         <activity
-            android:name=".ui.HomeActivity"
-            android:theme="@style/Theme.BooksApp"
-            android:exported="false" />
+            android:name=".ui.home.DetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.BooksApp"/>
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.BooksApp" />
         <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

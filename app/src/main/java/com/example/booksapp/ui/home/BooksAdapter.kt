@@ -1,8 +1,8 @@
-package com.example.booksapp.ui
+package com.example.booksapp.ui.home
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.booksapp.data.model.BooksModel
@@ -19,6 +19,10 @@ class BooksAdapter : RecyclerView.Adapter<BooksAdapter.MyViewHolder>() {
         fun bind(booksModel: BooksModel) {
             binding.bookTitleText.text = booksModel.title
             Glide.with(binding.root).load(booksModel.pic).into(binding.bookImage)
+            binding.bookCardView.setOnClickListener {
+                val action = ListViewFragmentDirections.actionListViewFragmentToDetailsActivity(booksModel)
+                it.findNavController().navigate(action)
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.booksapp.ui
+package com.example.booksapp.ui.home
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -8,6 +8,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.booksapp.R
 import com.example.booksapp.databinding.ActivityHomeBinding
@@ -22,7 +24,10 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+
         binding = DataBindingUtil.setContentView(this,R.layout.activity_home)
+        setSupportActionBar(binding.homeActivityToolbar)
         lifecycleScope.launch {
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.homeActivityMain)) { v, insets ->
                 val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -35,8 +40,8 @@ class HomeActivity : AppCompatActivity() {
 
         val bottomNavBar = findViewById<BottomNavigationView>(R.id.homeActivityNavigationView)
         val navigationController = navHostFragment.navController
-//        val appBarConfig = AppBarConfiguration(setOf(R.id.firstFragment,R.id.secondFragment,R.id.thirdFragment))
-//        setupActionBarWithNavController(navigationController,appBarConfig)
+        val appBarConfig = AppBarConfiguration(setOf(R.id.listViewFragment,R.id.settingFragment))
+        setupActionBarWithNavController(navigationController,appBarConfig)
         bottomNavBar.setupWithNavController(navigationController)
     }
 }
