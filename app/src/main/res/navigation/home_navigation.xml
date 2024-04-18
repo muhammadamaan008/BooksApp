@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/listViewFragment"
-        android:name="com.example.booksapp.ui.home.ListViewFragment"
+        android:name="com.example.booksapp.ui.home.listView.ListViewFragment"
         tools:layout="@layout/fragment_list_view"
         android:label="HomeFragment" >
         <action
@@ -23,7 +23,7 @@
     </fragment>
     <activity
         android:id="@+id/detailsActivity"
-        android:name="com.example.booksapp.ui.home.DetailsActivity"
+        android:name="com.example.booksapp.ui.DetailsActivity"
         android:label="activity_details"
         tools:layout="@layout/activity_details" >
         <argument

@@ -1,4 +1,4 @@
-package com.example.booksapp.ui.home
+package com.example.booksapp.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -7,7 +7,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.navArgs
-import com.bumptech.glide.Glide
 import com.example.booksapp.R
 import com.example.booksapp.databinding.ActivityDetailsBinding
 
@@ -23,11 +22,7 @@ class DetailsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        binding.titleText.text = args.bookDetails.title
-        binding.authorText.text = args.bookDetails.author
-        binding.aboutText.text = args.bookDetails.about
-        Glide.with(this).load(args.bookDetails.pic).into(binding.bookImg)
+        binding.book = args.bookDetails
 
         println(args.bookDetails.toString())
     }

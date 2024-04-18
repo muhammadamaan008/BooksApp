@@ -6,7 +6,7 @@
     <data>
         <variable
             name="book"
-            type="com.example.booksapp.ui.home.DetailsActivity" />
+            type="com.example.booksapp.data.model.BooksModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/_15sdp"
-        tools:context=".ui.home.DetailsActivity">
+        tools:context=".ui.DetailsActivity">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/bookImgCard"
@@ -27,7 +27,9 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/bookImg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                app:imageUrl="@{book.pic}"
+                />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -44,7 +46,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:maxLines="1"
-            android:text="ahnddddddhdhdh"
+            android:text="@{book.title}"
             />
 
         <com.google.android.material.textview.MaterialTextView
@@ -74,7 +76,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:maxLines="1"
-            android:text="Author Name"
+            android:text="@{book.author}"
             />
 
         <com.google.android.material.textview.MaterialTextView
@@ -106,8 +108,7 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
-
-            android:text="About"
+            android:text="@{book.about}"
             />
 
 
