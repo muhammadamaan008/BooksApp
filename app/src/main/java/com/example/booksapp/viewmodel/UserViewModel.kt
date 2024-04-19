@@ -51,6 +51,9 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     private val _tokenVerified = MutableLiveData<Boolean>()
     val tokenVerified: LiveData<Boolean> get() = _tokenVerified
 
+    private val _userDataFromDb = MutableLiveData<List<UserModel>>()
+    val userDataFromDb: LiveData<List<UserModel>> get() = _userDataFromDb
+
     private fun setUserData(userModel: UserModel) {
         userData.value = userModel
     }
@@ -113,14 +116,17 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
     }
 
     fun getAllBooks(){
+        _loadingBar.value = true
         viewModelScope.launch {
             val books =
                 mainRepository.getAllBooks("Bearer ${SharedPreferencesManager.getToken("TOKEN", null)}")
             books.onSuccess {
                 println(it.toString())
                 booksDataset.value =it
+                _loadingBar.value = false
             }.onFailure {
                 println(it.message.toString())
+                _loadingBar.value = false
             }
         }
     }
@@ -156,6 +162,18 @@ class UserViewModel @Inject constructor(private val mainRepository: MainReposito
                 "TOKEN",
                 token
             )
+        }
+    }
+
+    fun getUserDataFromDb(){
+        viewModelScope.launch {
+            val mainRepository = mainRepository.getUserData()
+            mainRepository.onSuccess {
+                println("hnnnn yeee vm ${it.value}")
+                _userDataFromDb.value = it.value
+            }.onFailure {
+                println("cannot fetch user data from db")
+            }
         }
     }
 

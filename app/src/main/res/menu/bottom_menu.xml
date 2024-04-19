@@ -5,10 +5,10 @@
         android:icon="@drawable/home"
         android:title="Home" />
 
-<!--    <item-->
-<!--        android:id="@+id/secondFragment"-->
-<!--        android:icon="@drawable/profile"-->
-<!--        android:title="Profile" />-->
+    <item
+        android:id="@+id/addBookFragment"
+        android:icon="@drawable/add"
+        android:title="Add Book" />
 
     <item
         android:id="@+id/settingFragment"

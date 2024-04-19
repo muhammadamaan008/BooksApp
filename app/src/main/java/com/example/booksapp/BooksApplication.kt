@@ -1,4 +1,4 @@
-package com.example.booksapp.application
+package com.example.booksapp
 
 import android.app.Application
 import com.example.booksapp.data.local.SharedPreferencesManager

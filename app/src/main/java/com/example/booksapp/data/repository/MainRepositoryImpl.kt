@@ -1,5 +1,6 @@
 package com.example.booksapp.data.repository
 
+import androidx.lifecycle.LiveData
 import com.example.booksapp.data.database.UserDao
 import com.example.booksapp.data.model.AuthorModel
 import com.example.booksapp.data.model.BooksModel
@@ -94,6 +95,14 @@ class MainRepositoryImpl(private val apiInterface: ApiInterface, private val use
             }
             println("Error message from server all books: $errorMessage")
             Result.failure(Exception(errorMessage))
+        }
+    }
+
+    override suspend fun getUserData(): Result<LiveData<List<UserModel>>> {
+        return try {
+            Result.success(userDao.getAll())
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 }

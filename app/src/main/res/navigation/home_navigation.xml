@@ -16,7 +16,7 @@
         android:id="@+id/listViewFragment"
         android:name="com.example.booksapp.ui.home.listView.ListViewFragment"
         tools:layout="@layout/fragment_list_view"
-        android:label="HomeFragment" >
+        android:label="Home" >
         <action
             android:id="@+id/action_listViewFragment_to_detailsActivity"
             app:destination="@id/detailsActivity" />
@@ -30,4 +30,9 @@
             android:name="bookDetails"
             app:argType="com.example.booksapp.data.model.BooksModel" />
     </activity>
+    <fragment
+        android:id="@+id/addBookFragment"
+        android:name="com.example.booksapp.ui.home.AddBookFragment"
+        android:label="fragment_add_book"
+        tools:layout="@layout/fragment_add_book" />
 </navigation>

@@ -1,5 +1,6 @@
 package com.example.booksapp.domain.repository
 
+import androidx.lifecycle.LiveData
 import com.example.booksapp.data.model.AuthorModel
 import com.example.booksapp.data.model.BooksModel
 import com.example.booksapp.data.model.UserModel
@@ -12,4 +13,5 @@ interface MainRepository {
     suspend fun verifyToken(userModel: UserModel): Result<UserResponse>
     suspend fun getAllAuthors(token: String): Result<List<AuthorModel>>
     suspend fun getAllBooks(token: String): Result<List<BooksModel>>
+    suspend fun getUserData(): Result<LiveData<List<UserModel>>>
 }
