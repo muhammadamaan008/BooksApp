@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,7 +61,7 @@ class ListViewFragment : Fragment() {
 
     private fun setLoadingObservable() {
         lifecycleScope.launch(Dispatchers.Main) {
-            viewModel.loadingBar.observe(viewLifecycleOwner, Observer {
+            viewModel.loadingBar.observe(viewLifecycleOwner) {
                 if (it == true) {
                     binding.authorsRecyclerView.visibility = View.GONE
                     binding.booksRecyclerView.visibility = View.GONE
@@ -76,18 +75,18 @@ class ListViewFragment : Fragment() {
                     binding.booksText.visibility = View.VISIBLE
                     binding.loadingBar.visibility = View.GONE
                 }
-            })
+            }
         }
     }
 
     private fun setBooksData() {
         binding.booksRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.booksRecyclerView.setHasFixedSize(true)
-        viewModel.booksDataset.observe(viewLifecycleOwner, Observer {
+        viewModel.booksDataset.observe(viewLifecycleOwner) {
             val adapter = BooksAdapter()
             adapter.setBooksData(it)
             binding.booksRecyclerView.adapter = adapter
-        })
+        }
 
 //        val spacingInPixels = resources.getDimensionPixelSize(1)
 //        binding.booksRecyclerView.addItemDecoration(GridSpacingItemDecoration(2, spacingInPixels, true))
@@ -100,10 +99,10 @@ class ListViewFragment : Fragment() {
         binding.authorsRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.authorsRecyclerView.setHasFixedSize(true)
-        viewModel.authorDataset.observe(viewLifecycleOwner, Observer {
+        viewModel.authorDataset.observe(viewLifecycleOwner) {
             val adapter = AuthorsAdapter()
             adapter.setAuthorsData(it)
             binding.authorsRecyclerView.adapter = adapter
-        })
+        }
     }
 }
